@@ -6,40 +6,36 @@ import ExpensesFilter from "./ExpensesFilter";
 import "./Expenses.css";
 
 const Expenses = (props) => {
-  const [filteredYear, setFilteredYear] = useState("2020");
+  let valuesArr = props.items.map((expense) => (
+    <ExpenseItem
+      key={expense.id}
+      title={expense.title}
+      amount={expense.amount}
+      date={expense.date}
+      location={expense.location}
+    />
+  ));
+
+  const [expenceList, setExpenseList] = useState(valuesArr);
+  const [filteredYear, setFilteredYear] = useState("--select--");
 
   const filterChangeHandler = (selectedYear) => {
+    let arr=valuesArr
     setFilteredYear(selectedYear);
+    setExpenseList(
+      arr.filter((obj) => {
+        return obj.props.date.getFullYear() == selectedYear;
+      })
+    );
   };
 
-  // let arr = [];
-  // for (let i = 0; i < props.items.length; i++) {
-  //   arr.push(
-  //     <ExpenseItem
-  //       title={props.items[i].title}
-  //       amount={props.items[i].amount}
-  //       date={props.items[i].date}
-  //       location={props.items[i].location}
-  //     />
-  //   );
-  // }
   return (
     <Card className="expenses">
       <ExpensesFilter
         selected={filteredYear}
         onChangeFilter={filterChangeHandler}
       />
-      {props.items.map((expense) => (
-        <ExpenseItem
-          key={expense.id}
-          title={expense.title}
-          amount={expense.amount}
-          date={expense.date}
-          location={expense.location}
-        />
-      ))}
-
-      {/* {arr} */}
+      {expenceList}
     </Card>
   );
 };
