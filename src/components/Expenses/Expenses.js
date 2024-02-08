@@ -6,7 +6,18 @@ import ExpensesFilter from "./ExpensesFilter";
 import "./Expenses.css";
 
 const Expenses = (props) => {
-  let valuesArr = props.items.map((expense) => (
+
+  const [filteredYear, setFilteredYear] = useState("--select--");
+
+  const filterChangeHandler = (selectedYear) => {
+    setFilteredYear(selectedYear);
+  };
+
+  const filteredExpenses = props.items.filter((expense) => {
+    return expense.date.getFullYear().toString() === filteredYear;
+  });
+  let arr=filteredExpenses.map((expense) => (
+        
     <ExpenseItem
       key={expense.id}
       title={expense.title}
@@ -14,20 +25,8 @@ const Expenses = (props) => {
       date={expense.date}
       location={expense.location}
     />
-  ));
+  ))
 
-  const [expenceList, setExpenseList] = useState(valuesArr);
-  const [filteredYear, setFilteredYear] = useState("--select--");
-
-  const filterChangeHandler = (selectedYear) => {
-    let arr=valuesArr
-    setFilteredYear(selectedYear);
-    setExpenseList(
-      arr.filter((obj) => {
-        return obj.props.date.getFullYear() == selectedYear;
-      })
-    );
-  };
 
   return (
     <Card className="expenses">
@@ -35,7 +34,7 @@ const Expenses = (props) => {
         selected={filteredYear}
         onChangeFilter={filterChangeHandler}
       />
-      {expenceList}
+      {arr.length==0?<p style={{color: "white"}}> No Elements Found!!</p>:arr.length==1?[arr,<p style={{color: "white"}}>Only single Expense here. Please add more...</p>]:arr}
     </Card>
   );
 };
