@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 
 import ExpenseItem from "./ExpenseItem";
 import Card from "../UI/Card";
@@ -12,25 +12,34 @@ const Expenses = (props) => {
     setFilteredYear(selectedYear);
   };
 
-  let arr = [];
-  for (let i = 0; i < props.items.length; i++) {
-    arr.push(
-      <ExpenseItem
-        title={props.items[i].title}
-        amount={props.items[i].amount}
-        date={props.items[i].date}
-        location={props.items[i].location}
-      />
-    );
-  }
+  // let arr = [];
+  // for (let i = 0; i < props.items.length; i++) {
+  //   arr.push(
+  //     <ExpenseItem
+  //       title={props.items[i].title}
+  //       amount={props.items[i].amount}
+  //       date={props.items[i].date}
+  //       location={props.items[i].location}
+  //     />
+  //   );
+  // }
   return (
     <Card className="expenses">
       <ExpensesFilter
         selected={filteredYear}
         onChangeFilter={filterChangeHandler}
       />
+      {props.items.map((expense) => (
+        <ExpenseItem
+          key={expense.id}
+          title={expense.title}
+          amount={expense.amount}
+          date={expense.date}
+          location={expense.location}
+        />
+      ))}
 
-      {arr}
+      {/* {arr} */}
     </Card>
   );
 };
