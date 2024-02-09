@@ -1,10 +1,10 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import "./ExpenseForm.css";
 
 const ExpenseForm = (props) => {
-    const [enteredTitle,setEnteredTitle]=useState("")
-    const [enteredAmount,setEnteredAmount]=useState("")
-    const [enteredDate,setEnteredDate]=useState("")
+  const [enteredTitle, setEnteredTitle] = useState("");
+  const [enteredAmount, setEnteredAmount] = useState("");
+  const [enteredDate, setEnteredDate] = useState("");
 
   const titleChangeHandler = (event) => {
     setEnteredTitle(event.target.value);
@@ -16,29 +16,72 @@ const ExpenseForm = (props) => {
     setEnteredDate(event.target.value);
   };
 
-  const formSubmit=(event)=>{
-    event.preventDefault()
-    const expenseData={
-        title: enteredTitle,
-        amount: enteredAmount,
-        date: new Date(enteredDate)
+  const formSubmit = (event) => {
+    event.preventDefault();
+    const expenseData = {
+      title: enteredTitle,
+      amount: enteredAmount,
+      date: new Date(enteredDate),
+    };
+
+    props.onSaveExpenseData(expenseData);
+
+    setEnteredTitle("");
+    setEnteredAmount("");
+    setEnteredDate("");
+    document.querySelectorAll(".inputF").forEach(ele=>{
+        ele.style.display="none"
     }
+        )
+    document.querySelectorAll(".btnF").forEach(ele=>{
+        console.log(ele)
+        ele.style.display="none"
+    })
+    document.querySelector(".newExpBtn").style.display="flex"
+  };
+  /////////////////////////////////
+  function addNewExpence(event){
+    event.preventDefault();
+    console.log(event)
+    event.target.parentElement.style.display="none"
+    document.querySelectorAll(".inputF").forEach(ele=>{
+        ele.style.display="block"
+    }
+        )
+    document.querySelectorAll(".btnF").forEach(ele=>{
+        console.log(ele)
+        ele.style.display="block"
+    })
 
-    props.onSaveExpenseData(expenseData)
-
-    setEnteredTitle("")
-    setEnteredAmount("")
-    setEnteredDate("")
   }
+  function cancelNewExpense(event){
+        event.preventDefault()
+        document.querySelectorAll(".inputF").forEach(ele=>{
+            ele.style.display="none"
+        }
+            )
+        document.querySelectorAll(".btnF").forEach(ele=>{
+            console.log(ele)
+            ele.style.display="none"
+        })
+        document.querySelector(".newExpBtn").style.display="flex"
+        
+
+  }
+  /////////////////////////////////
 
   return (
     <form onSubmit={(event) => formSubmit(event)}>
       <div className="new-expense__controls">
-        <div className="new-expense__control">
+        <div className="new-expense__control inputF">
           <label>Title</label>
-          <input value={enteredTitle} onChange={(event) => titleChangeHandler(event)} type="text" />
+          <input
+            value={enteredTitle}
+            onChange={(event) => titleChangeHandler(event)}
+            type="text"
+          />
         </div>
-        <div className="new-expense__control">
+        <div className="new-expense__control inputF">
           <label>Amount</label>
           <input
             onChange={(event) => amountChangeHandler(event)}
@@ -48,7 +91,7 @@ const ExpenseForm = (props) => {
             value={enteredAmount}
           />
         </div>
-        <div className="new-expense__control">
+        <div className="new-expense__control inputF">
           <label>Date</label>
           <input
             onChange={(event) => dateChangeHandler(event)}
@@ -59,8 +102,14 @@ const ExpenseForm = (props) => {
           />
         </div>
       </div>
+      <div className="new-expense__actions btnF" >
+        <button type="button" onClick={(e)=>cancelNewExpense(e)} >Cancel</button>
+        <button type="submit" >Add Expense</button>
+      </div>
       <div className="new-expense__actions">
-        <button  type="submit">Add Expense</button>
+      </div>
+      <div className="new-expense__actions newExpBtn">
+        <button type="button" onClick={(e)=>addNewExpence(e)}>Add New Expense</button>
       </div>
     </form>
   );

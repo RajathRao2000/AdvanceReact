@@ -24,3 +24,11 @@
   .new-expense__actions {
     text-align: right;
   }
+
+  .inputF,.btnF{
+    display: none;
+  }
+  .newExpBtn{
+    display: flex;
+    justify-content: center;
+  }

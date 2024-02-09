@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import ExpenseItem from "./ExpenseItem";
 import Card from "../UI/Card";
 import ExpensesFilter from "./ExpensesFilter";
+import ExpensesChart from "./ExpensesChart";
 import "./Expenses.css";
 
 const Expenses = (props) => {
@@ -34,6 +35,7 @@ const Expenses = (props) => {
         selected={filteredYear}
         onChangeFilter={filterChangeHandler}
       />
+      <ExpensesChart expenses={filteredExpenses}/>
       {arr.length==0?<p style={{color: "white"}}> No Elements Found!!</p>:arr.length==1?[arr,<p style={{color: "white"}}>Only single Expense here. Please add more...</p>]:arr}
     </Card>
   );
